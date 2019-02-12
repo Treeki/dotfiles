@@ -39,6 +39,7 @@ alias -g LL="2>&1 | less"
 alias H='hexyl'
 
 if [ $host = "tres.wuffs.org" ]; then
+  export LC_ALL=en_GB.UTF-8
   source /usr/share/nvm/init-nvm.sh
 elif [ $host = "fucko" ]; then
   eval $(keychain --eval --quiet id_rsa)
