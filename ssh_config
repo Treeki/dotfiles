@@ -1,0 +1,10 @@
+Host *
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h-%p
+  ControlPersist 600
+
+Host tres
+  HostName tres.wuffs.org
+  User ninji
+
+
