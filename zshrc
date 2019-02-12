@@ -19,8 +19,8 @@ host=$(hostname)
 if [ $host = "tres.wuffs.org" ]; then
   export ZSH="/home/ninji/.oh-my-zsh"
 elif [ $host = "fucko" ]; then
-  export ZSH="/home/ninji/.oh-my-zsh"
-elif [ $host = "krompfty.lanx" ]; then
+  export ZSH="/home/ash/.oh-my-zsh"
+elif [ $host = "krompfty.lanx" -o $host = "trash" ]; then
   export ZSH="/Users/ash/.oh-my-zsh"
   plugins=($plugins bgnotify osx)
 fi
