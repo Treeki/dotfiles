@@ -7,4 +7,7 @@ Host tres
   HostName tres.wuffs.org
   User ninji
 
+Host cafe
+  HostName cafe.cis.strath.ac.uk
+  User kwb16187
 

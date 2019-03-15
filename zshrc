@@ -20,7 +20,7 @@ if [ $host = "tres.wuffs.org" ]; then
   export ZSH="/home/ninji/.oh-my-zsh"
 elif [ $host = "fucko" ]; then
   export ZSH="/home/ash/.oh-my-zsh"
-elif [ $host = "krompfty.lanx" -o $host = "trash" ]; then
+elif [ $host = "krompfty.lanx" -o $host = "trash.local" ]; then
   export ZSH="/Users/ash/.oh-my-zsh"
   plugins=($plugins bgnotify osx)
 fi
@@ -43,4 +43,12 @@ if [ $host = "tres.wuffs.org" ]; then
   source /usr/share/nvm/init-nvm.sh
 elif [ $host = "fucko" ]; then
   eval $(keychain --eval --quiet id_rsa)
+elif [ $host = "trash.local" ]; then
+  source /usr/local/opt/chruby/share/chruby/chruby.sh
+  export PATH=/Users/ash/.local/bin:$PATH
+
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+  fi
 fi
