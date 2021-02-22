@@ -1,8 +1,16 @@
 $ git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 $ ln -s ~/src/dotfiles/zshrc ~/.zshrc
+$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+$ ln -s ~/src/dotfiles/tmux.conf ~/.tmux.conf
+$ ln -s ~/src/dotfiles/alacritty.yml ~/.alacritty.yml
 $ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 $ git clone https://github.com/denysdovhan/spaceship-prompt.git ~/.oh-my-zsh/custom/themes/spaceship-prompt
 $ ln -s ~/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme
 $ mkdir -p ~/.ssh/sockets
 $ ln -s ~/src/dotfiles/ssh_config ~/.ssh/config
+$ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+$ mkdir -p ~/.config/nvim
+$ ln -s ~/src/dotfiles/nvim_init.vim ~/.config/nvim/init.vim
+$ ln -s ~/src/dotfiles/nvim_ginit.vim ~/.config/nvim/ginit.vim
 
+patch .oh-my-zsh/lib/termsupport.zsh to add tmux* to get window+tab name

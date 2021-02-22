@@ -1,8 +1,20 @@
-ZSH_THEME="spaceship"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+#ZSH_THEME="spaceship"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+ZLE_RPROMPT_INDENT=0
 
 ENABLE_CORRECTION="true"
 
 plugins=(
+  docker
+  docker-compose
+  fd
   git
   vi-mode
   colored-man-pages
@@ -17,10 +29,16 @@ znt_list_bold=1
 
 host=$(hostname)
 if [ $host = "tres.wuffs.org" ]; then
+  # VPS
   export ZSH="/home/ninji/.oh-my-zsh"
 elif [ $host = "fucko" ]; then
+  # thinkpad Arch
+  export ZSH="/home/ash/.oh-my-zsh"
+elif [ $host = "egg" ]; then
+  # desktop Arch
   export ZSH="/home/ash/.oh-my-zsh"
 elif [ $host = "krompfty.lanx" -o $host = "trash.local" ]; then
+  # desktop Mac / laptop Mac
   export ZSH="/Users/ash/.oh-my-zsh"
   plugins=($plugins bgnotify osx)
 fi
@@ -30,6 +48,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 alias grep='grep --color'
 alias -g H='| head'
 alias -g T='| tail'
@@ -37,13 +56,35 @@ alias -g G='| grep'
 alias -g L="| bat"
 alias -g LL="2>&1 | less"
 alias H='hexyl'
+tree() {
+	exa -TF --colour=always "$@" | bat -p
+}
 
 if [ $host = "tres.wuffs.org" ]; then
+  # VPS
   export LC_ALL=en_GB.UTF-8
   source /usr/share/nvm/init-nvm.sh
 elif [ $host = "fucko" ]; then
+  # thinkpad Arch
   eval $(keychain --eval --quiet id_rsa)
+elif [ $host = "egg" ]; then
+  # desktop Arch
+  eval $(keychain --eval --quiet id_ed25519)
+  export PATH=/home/ash/.cargo/bin:$PATH
+  export PATH=/home/ash/.dotnet/tools:$PATH
+  export PATH=/home/ash/.local/bin:$PATH
+  export PATH=/home/ash/.node_modules/bin:$PATH
+  export npm_config_prefix=~/.node_modules
+  alias ls=lsd
+  export EDITOR=nvim
+  alias vim=nvim
+  alias gvim=nvim-qt
+  brightness() {
+    test -e "/sys/module/i2c_dev" || sudo modprobe i2c_dev
+    ddcutil --nousb setvcp 10 "$@"
+  }
 elif [ $host = "trash.local" ]; then
+  # laptop Mac
   source /usr/local/opt/chruby/share/chruby/chruby.sh
   export PATH=/Users/ash/.local/bin:$PATH
 
@@ -52,3 +93,6 @@ elif [ $host = "trash.local" ]; then
     eval "$(pyenv init -)"
   fi
 fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
