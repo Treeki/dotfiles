@@ -37,10 +37,10 @@ elif [ $host = "fucko" ]; then
 elif [ $host = "egg" ]; then
   # desktop Arch
   export ZSH="/home/ash/.oh-my-zsh"
-elif [ $host = "krompfty.lanx" -o $host = "trash.local" ]; then
+elif [ $host = "krompfty.lanx" -o $host = "trash.local" -o $host = "trash" -o $host = "trash.lan" ]; then
   # desktop Mac / laptop Mac
   export ZSH="/Users/ash/.oh-my-zsh"
-  plugins=($plugins bgnotify osx)
+  plugins=($plugins osx)
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -83,16 +83,30 @@ elif [ $host = "egg" ]; then
     test -e "/sys/module/i2c_dev" || sudo modprobe i2c_dev
     ddcutil --nousb setvcp 10 "$@"
   }
-elif [ $host = "trash.local" ]; then
+elif [ $host = "trash.local" -o $host = "trash" ]; then
   # laptop Mac
+  export THEOS=/Users/ash/theos
   source /usr/local/opt/chruby/share/chruby/chruby.sh
-  export PATH=/Users/ash/.local/bin:$PATH
+  export PATH=/usr/local/opt/perl/bin:/Users/ash/.local/bin:/Users/ash/.cargo/bin:/usr/local/Caskroom/android-sdk/4333796/platform-tools/:$PATH
+  export PATH=$PATH:/Users/ash/src/depot_tools
+  export PATH=$PATH:/Users/ash/.emacs.d/bin
 
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
   if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
   fi
+
+  export EDITOR=nvim
+  alias vim=nvim
+  alias ls='lsd'
+  source /Users/ash/.config/broot/launcher/bash/br
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export TWIB_FRONTEND=tcp
+export TWIB_TCP_FRONTEND_PORT=9797
+
+autoload -U zcalc
+alias c='zcalc -#16'
