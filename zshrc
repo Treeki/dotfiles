@@ -83,6 +83,7 @@ elif [ $host = "egg" ]; then
     test -e "/sys/module/i2c_dev" || sudo modprobe i2c_dev
     ddcutil --nousb setvcp 10 "$@"
   }
+  source /home/ash/.config/broot/launcher/bash/br
 elif [ $host = "trash.local" -o $host = "trash" ]; then
   # laptop Mac
   export THEOS=/Users/ash/theos
