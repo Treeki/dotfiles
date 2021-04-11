@@ -1,15 +1,14 @@
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert,noselect,preview
 set hidden
 set mouse=a
 set termguicolors
 set noshowmode
 set nobackup
 set nowritebackup
-
 set tabstop=4
 set shiftwidth=4
 set noexpandtab
-
+let mapleader="`"
 set number
 set signcolumn=number
 set cmdheight=2
@@ -38,6 +37,7 @@ set list lcs=tab:\▏\
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
+Plug 'OmniSharp/omnisharp-vim'
 
 " Colour schemes
 Plug 'junegunn/seoul256.vim'
@@ -100,7 +100,6 @@ EOF
 
 "autocmd BufEnter * lua require'completion'.on_attach()
 
-
 "Airline
 let g:airline_theme='tomorrow'
 let g:airline_powerline_fonts=1
@@ -112,5 +111,23 @@ nnoremap <Leader>b :lua require'telescope.builtin'.buffers(require('telescope.th
 nnoremap <Leader>m :lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({ winblend = 20 }))<cr>
 nnoremap <Leader>v <cmd>CHADopen --always-focus<cr>
 
+" OmniSharp
+let g:OmniSharp_popup_position = 'peek'
+let g:OmniSharp_popup_options = {'winhl': 'Normal:NormalFloat' }
+let g:OmniSharp_popup_mappings = {
+\ 'sigNext': '<C-n>',
+\ 'sigPrev': '<C-p>',
+\ 'pageDown': ['<C-f>', '<PageDown>'],
+\ 'pageUp': ['<C-b>', '<PageUp>']
+\}
 
+let g:OmniSharp_highlight_groups = {
+\ 'ExcludedCode': 'NonText'
+\}
+
+autocmd CursorHold *.cs OmniSharpTypeLookup
+autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+autocmd FileType cs nmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
+autocmd FileType cs xmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
 

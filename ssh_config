@@ -11,3 +11,10 @@ Host cafe
   HostName cafe.cis.strath.ac.uk
   User kwb16187
 
+Host nas
+  HostName 192.168.0.10
+  User ninji
+
+Host 192.168.0.142
+  HostName 192.168.0.142
+  User ash
