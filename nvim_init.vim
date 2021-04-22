@@ -8,18 +8,21 @@ set nowritebackup
 set tabstop=4
 set shiftwidth=4
 set noexpandtab
-let mapleader="`"
+let mapleader="\\"
 set number
 set signcolumn=number
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
+set scrolloff=8
+set relativenumber
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'kyazdani42/nvim-web-devicons'
 "Plug 'romgrk/barbar.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
@@ -38,6 +41,7 @@ Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'puremourning/vimspector'
 
 " Colour schemes
 Plug 'junegunn/seoul256.vim'
@@ -71,6 +75,16 @@ nnoremap <silent> <Right> :BufferLineCycleNext<CR>
 inoremap <silent><expr> <c-space> coc#refresh()
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>af <Plug>(coc-codeaction)
+nmap <leader>al <Plug>(coc-codeaction-line)
+nmap <leader>ac <Plug>(coc-codeaction-cursor)
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation()
 	if (index(['vim','help'], &filetype) >= 0)
@@ -130,4 +144,10 @@ autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
 autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
 autocmd FileType cs nmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
 autocmd FileType cs xmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
+
+" Vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
+let g:vimspector_install_gadgets = ['vscode-cpptools']
+nmap <Leader>di <Plug>VimspectorBalloonEval
+xmap <Leader>di <Plug>VimspectorBalloonEval
 
