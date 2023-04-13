@@ -5,6 +5,25 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# for brew completion
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+function fd() {
+  if [ -t 1 ]; then
+    env fd -c always $* | less -RF
+  else
+    env fd $*
+  fi
+}
+
+function rg() {
+  if [ -t 1 ]; then
+    env rg --color always $* | less -RF
+  else
+    env rg $*
+  fi
+}
+
 #ZSH_THEME="spaceship"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZLE_RPROMPT_INDENT=0
@@ -16,12 +35,15 @@ plugins=(
   docker-compose
   fd
   git
+  ripgrep
+  rust
   vi-mode
   colored-man-pages
+  zsh-syntax-highlighting
   history-substring-search
   zsh-autosuggestions
-  zsh_reload
   zsh-navigation-tools
+  zoxide
 )
 
 znt_list_colorpair="white/black"
@@ -37,10 +59,10 @@ elif [ $host = "fucko" ]; then
 elif [ $host = "egg" ]; then
   # desktop Arch
   export ZSH="/home/ash/.oh-my-zsh"
-elif [ $host = "krompfty.lanx" -o $host = "trash.local" -o $host = "trash" -o $host = "trash.lan" ]; then
+elif [ $host = "krompfty.lanx" -o $host = "trash2.local" ]; then
   # desktop Mac / laptop Mac
   export ZSH="/Users/ash/.oh-my-zsh"
-  plugins=($plugins osx)
+  plugins=($plugins brew macos)
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -50,11 +72,12 @@ source $ZSH/oh-my-zsh.sh
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 alias grep='grep --color'
+alias bg='batgrep'
 alias -g H='| head'
 alias -g T='| tail'
-alias -g G='| grep'
+alias -g G='| rg'
 alias -g L="| bat"
-alias -g LL="2>&1 | less"
+alias -g LL="2>&1 | bat"
 alias H='hexyl'
 tree() {
 	exa -TF --colour=always "$@" | bat -p
@@ -84,18 +107,12 @@ elif [ $host = "egg" ]; then
     ddcutil --nousb setvcp 10 "$@"
   }
   source /home/ash/.config/broot/launcher/bash/br
-elif [ $host = "trash.local" -o $host = "trash" ]; then
+elif [ $host = "trash2.local" -o $host = "trash2" ]; then
   # laptop Mac
-  export THEOS=/Users/ash/theos
-  source /usr/local/opt/chruby/share/chruby/chruby.sh
-  export PATH=/usr/local/opt/perl/bin:/Users/ash/.local/bin:/Users/ash/.cargo/bin:/usr/local/Caskroom/android-sdk/4333796/platform-tools/:$PATH
-  export PATH=$PATH:/Users/ash/src/depot_tools
-  export PATH=$PATH:/Users/ash/.emacs.d/bin
+  export PATH=$PATH:/Users/ash/.cargo/bin
+  export PATH=$PATH:/Users/ash/src/flutter/bin
 
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-  if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-  fi
 
   export EDITOR=nvim
   alias vim=nvim
